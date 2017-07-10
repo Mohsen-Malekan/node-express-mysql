@@ -93,7 +93,8 @@ export function create(req, res) {
   //   .catch(handleError(res));
   console.log('>>>req.file: ', req.file);
   let tmpPath = req.file.path;
-  let targetPath = `./client/assets/images/${req.file.originalname}`;
+  // let targetPath = `./client/assets/images/${req.file.originalname}`;
+  var targetPath = path.join(__dirname, '../../../client/assets/images/', req.file.originalname);
   fs.rename(tmpPath, targetPath, function(err) {
     if(err) {
       return handleError(res)(err);
@@ -118,7 +119,7 @@ export function create(req, res) {
   function savePicture() {
     return Picture.create({
       propertyId: Number(req.body.propertyId),
-      path: targetPath.replace('/client', '')
+      path: `./assets/images/${req.file.originalname}`
     })
       .then(respondWithResult(res, 201))
       .catch(handleError(res));
